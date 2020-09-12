@@ -108,7 +108,7 @@ export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 
 # NodeJS
-NODE_VERSION=10.16
+NODE_VERSION=12.18.3
 nvm use $NODE_VERSION
 if [[ $? != 0 ]]; then
   echo "Installing NodeJS $NODE_VERSION"
