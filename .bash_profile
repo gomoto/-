@@ -1,7 +1,5 @@
 #!/bin/bash
 
-echo 'Loading .bash_profile'
-
 # Prompt
 RESTORE=$(echo -en '\033[0m')
 RED=$(echo -en '\033[00;31m')
@@ -82,67 +80,74 @@ export PS1="$ "
 export PATH="/opt:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/sbin:/bin:$HOME"
 
 # aliases
-alias nr="npm run"
+alias ga="git add"
+alias gb="git branch"
+alias gc="git commit"
 alias gd="git diff"
 alias gdc="git diff --cached"
 alias gl="git log"
 alias gs="git status"
+alias gch="git checkout"
 alias gsh="git show"
 alias gpoh="git push origin HEAD"
-alias gc="git commit"
-alias gco="git checkout"
-alias gp="git pull"
-alias gb="git branch"
-alias ga="git add"
-alias gwhich="git rev-parse --abbrev-ref HEAD"
 alias gcanoe="git commit --amend --no-edit"
+alias gwhich="git rev-parse --abbrev-ref HEAD"
 alias k="kubectl"
+alias kg="kubectl get"
+alias kd="kubectl describe"
+alias kgp="kubectl get pod"
+alias kdp="kubectl describe pod"
+alias kl="kubectl logs"
+alias klf="kubectl logs -f"
 
 # editor
 export VISUAL='code -w'
 export EDITOR="$VISUAL"
 
-# nvm
-export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
-
-# NodeJS
-NODE_VERSION=12.18.3
-nvm use $NODE_VERSION
-if [[ $? != 0 ]]; then
-  echo "Installing NodeJS $NODE_VERSION"
-  nvm install $NODE_VERSION
-fi
+# bash autocomplete
+# [ -f /usr/local/etc/bash_completion ] && . /usr/local/etc/bash_completion
 
 # docker-compose completion
 fpath=(~/.zsh/completion $fpath)
-# autoload -Uz compinit && compinit -i
+autoload -Uz compinit && compinit -i
 
 # go
-export GOPATH=$HOME/go
-export PATH=$PATH:$GOPATH/bin:/usr/local/go/bin
+# export GOPATH=$HOME/go
+# export PATH=$PATH:$GOPATH/bin:/usr/local/go/bin
+# [[ -s "/Users/ryan/.gvm/scripts/gvm" ]] && source "/Users/ryan/.gvm/scripts/gvm"
 
-# bash autocomplete
-[ -f /usr/local/etc/bash_completion ] && . /usr/local/etc/bash_completion
-
+# Google Cloud
 # The next line updates PATH for the Google Cloud SDK.
 if [ -f '/Users/ryan/.google/google-cloud-sdk/path.bash.inc' ]; then source '/Users/ryan/.google/google-cloud-sdk/path.bash.inc'; fi
-
 # The next line enables shell command completion for gcloud.
 if [ -f '/Users/ryan/.google/google-cloud-sdk/completion.bash.inc' ]; then source '/Users/ryan/.google/google-cloud-sdk/completion.bash.inc'; fi
 
 # kubectl
-kubectl completion bash > $(brew --prefix)/etc/bash_completion.d/kubectl
+alias k="kubectl"
+complete -F __start_kubectl k
 
-# nativescript development
-export JAVA_HOME=$(/usr/libexec/java_home -v 1.8)
-export ANDROID_HOME=/usr/local/share/android-sdk
-export PATH=$ANDROID_HOME/emulator:$ANDROID_HOME/tools:$PATH
+# NativeScript
+# export JAVA_HOME=$(/usr/libexec/java_home -v 1.8)
+# export ANDROID_HOME=/usr/local/share/android-sdk
+# export PATH=$ANDROID_HOME/emulator:$ANDROID_HOME/tools:$PATH
 
+# NodeJS, nvm
+# export NVM_DIR="$HOME/.nvm"
+# [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+# [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+# NODE_VERSION=12.18.3
+# nvm use $NODE_VERSION
+# if [[ $? != 0 ]]; then
+#   echo "Installing NodeJS $NODE_VERSION"
+#   nvm install $NODE_VERSION
+# fi
+
+# Python
 if command -v pyenv 1>/dev/null 2>&1; then
   eval "$(pyenv init -)"
   eval "$(pyenv virtualenv-init -)"
 fi
 
-[[ -s "/Users/ryan/.gvm/scripts/gvm" ]] && source "/Users/ryan/.gvm/scripts/gvm"
+
+complete -C /usr/local/bin/mc mc
+

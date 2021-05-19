@@ -1,16 +1,3 @@
-# Path to your oh-my-zsh installation.
-if [[ `uname` = Linux ]]; then
-  export ZSH=/home/ryan/.oh-my-zsh
-elif [[ `uname` = Darwin ]]; then
-  export ZSH=/Users/ryan/.oh-my-zsh
-fi
-
-# Set name of the theme to load.
-# Look in ~/.oh-my-zsh/themes/
-# Optionally, if you set this to "random", it'll load a random theme each
-# time that oh-my-zsh is loaded.
-ZSH_THEME="miloshadzic"
-
 # Uncomment the following line to use case-sensitive completion.
 # CASE_SENSITIVE="true"
 
@@ -55,63 +42,25 @@ ZSH_THEME="miloshadzic"
 # Add wisely, as too many plugins slow down shell startup.
 plugins=(git)
 
-# User configuration
 
-export PATH="/opt:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/sbin:/bin"
-# export MANPATH="/usr/local/man:$MANPATH"
 
-source $ZSH/oh-my-zsh.sh
 
-# You may need to manually set your language environment
-# export LANG=en_US.UTF-8
 
-# Preferred editor for local and remote sessions
-# if [[ -n $SSH_CONNECTION ]]; then
-#   export EDITOR='vim'
-# else
-#   export EDITOR='mvim'
-# fi
+##### 
+##### User configuration 
+#####
 
-# Compilation flags
-# export ARCHFLAGS="-arch x86_64"
+source ~/.bash_profile
 
-# ssh
-# export SSH_KEY_PATH="~/.ssh/dsa_id"
+source <(kubectl completion zsh)
 
-# Set personal aliases, overriding those provided by oh-my-zsh libs,
-# plugins, and themes. Aliases can be placed here, though oh-my-zsh
-# users are encouraged to define aliases within the ZSH_CUSTOM folder.
-# For a full list of active aliases, run `alias`.
-#
-# Example aliases
-# alias zshconfig="mate ~/.zshrc"
-# alias ohmyzsh="mate ~/.oh-my-zsh"
 
-alias nr="npm run"
-alias gd="git diff"
-alias gdc="git diff --cached"
-alias gl="git log"
-alias gs="git status"
-alias gsh="git show"
+autoload -U +X bashcompinit && bashcompinit
+complete -o nospace -C /usr/local/bin/mc mc
 
-export NVM_DIR=~/.nvm
-. $(brew --prefix nvm)/nvm.sh
+if type brew &>/dev/null; then
+    FPATH=$(brew --prefix)/share/zsh-completions:$FPATH
 
-# NodeJS LTS version
-nvm use 8.9
-
-# docker-compose completion
-fpath=(~/.zsh/completion $fpath)
-autoload -Uz compinit && compinit -i
-
-export JAVA_HOME="/Library/Internet Plug-Ins/JavaAppletPlugin.plugin/Contents/Home"
-
-# Go
-export GOPATH=$HOME/go
-export PATH=$PATH:$GOPATH/bin:/usr/local/go/bin
-
-# kubectl
-export PATH=~/.google/google-cloud-sdk/bin:$PATH
-if [ $commands[kubectl] ]; then
-  source <(kubectl completion zsh)
+    autoload -Uz compinit
+    compinit
 fi
